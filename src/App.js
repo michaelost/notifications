@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ToastProvider, useToasts } from 'react-toast-notifications'
-import { Message, Container, Comment } from 'semantic-ui-react';
+import { Message, Container, Comment, Button } from 'semantic-ui-react';
 import 'semantic-ui-css/components/reset.min.css';
 import 'semantic-ui-css/components/site.min.css';
 import 'semantic-ui-css/components/container.min.css';
@@ -8,6 +8,7 @@ import 'semantic-ui-css/components/icon.min.css';
 import 'semantic-ui-css/components/message.min.css';
 import 'semantic-ui-css/components/header.min.css';
 import 'semantic-ui-css/components/comment.min.css';
+import 'semantic-ui-css/components/button.min.css';
 
 import { Transition } from 'react-transition-group';
 
@@ -35,8 +36,8 @@ const StardardToasts = () => {
   }
   return (
     <>
-    <button onClick={onClick}>create 4 react-toast-notifications at once </button>
-    <button onClick={oneByOne}>create 4 react-toast-notifications one by one </button>
+    <Button secondary onClick={onClick}>create 4 react-toast-notifications at once </Button>
+    <Button primary onClick={oneByOne}>create 4 react-toast-notifications one by one </Button>
     </>
   )
 }
@@ -44,13 +45,13 @@ const StardardToasts = () => {
 const FormWithToasts = () => {
   const { addToast } = useToasts()
   const onClick = () => addToast('message', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 })
-  return <button onClick={onClick}>create autodismissable semantic ui notification  </button>
+  return <Button onClick={onClick}>create autodismissable semantic ui notification  </Button>
 }
 
 const FormWithDismissableToasts = () => {
   const { addToast } = useToasts()
   const onSubmit = async value => addToast('Saved Successfully', { appearance: 'success', autoDismiss: false })
-  return <button onClick={onSubmit}>create dismissable semantic ui notification </button>
+  return <Button onClick={onSubmit}>create dismissable semantic ui notification </Button>
 }
 
 const MyCustomToast = ({ appearance, dismissable, children, ...props }) => {
@@ -72,7 +73,7 @@ const DismissableToast = ({ appearance, dismissable, children, onDismiss, ...pro
     <Message.Header>Absolutely custom Message</Message.Header>
     <p>
       We updated our privacy policy here to better service our customers. We
-      <button onClick={() => {alert('clicked')}}>custom button</button>
+      <Button onClick={() => {alert('clicked')}}>custom button</Button>
     </p>
   </Message>
 );
@@ -80,7 +81,7 @@ const DismissableToast = ({ appearance, dismissable, children, onDismiss, ...pro
 const AnimatedToasts = () => {
   const { addToast } = useToasts()
   const onSubmit = async value => addToast('Saved Successfully', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 })
-  return <button onClick={onSubmit}>create custom notification with animation</button>
+  return <Button primary onClick={onSubmit}>create custom notification with animation</Button>
 }
 
 const customAnimationStyle = {
