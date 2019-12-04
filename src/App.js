@@ -1,26 +1,142 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import { ToastProvider, useToasts } from 'react-toast-notifications'
+import { Message, Container, Comment } from 'semantic-ui-react';
+import 'semantic-ui-css/components/reset.min.css';
+import 'semantic-ui-css/components/site.min.css';
+import 'semantic-ui-css/components/container.min.css';
+import 'semantic-ui-css/components/icon.min.css';
+import 'semantic-ui-css/components/message.min.css';
+import 'semantic-ui-css/components/header.min.css';
+import 'semantic-ui-css/components/comment.min.css';
 
-function App() {
+import { Transition } from 'react-transition-group';
+
+const StardardToasts = () => {
+  const { addToast } = useToasts()
+  const onClick = () => {
+    addToast('message', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 })
+    addToast('message', { appearance: 'warning', autoDismiss: true, autoDismissTimeout: 3000 })
+    addToast('message', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 })
+    addToast('message', { appearance: 'info', autoDismiss: true, autoDismissTimeout: 3000 })
+  }
+  const oneByOne = () => {
+    setTimeout(() => {
+      addToast('message', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 })
+    }, 500)
+    setTimeout(() => {
+      addToast('message', { appearance: 'warning', autoDismiss: true, autoDismissTimeout: 3000 })
+    }, 1000)
+    setTimeout(() => {
+      addToast('message', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 })
+    }, 1500)
+    setTimeout(() => {
+      addToast('message', { appearance: 'info', autoDismiss: true, autoDismissTimeout: 3000 })
+    }, 2000)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    <button onClick={onClick}>create 4 react-toast-notifications at once </button>
+    <button onClick={oneByOne}>create 4 react-toast-notifications one by one </button>
+    </>
+  )
 }
 
-export default App;
+const FormWithToasts = () => {
+  const { addToast } = useToasts()
+  const onClick = () => addToast('message', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 })
+  return <button onClick={onClick}>create autodismissable semantic ui notification  </button>
+}
+
+const FormWithDismissableToasts = () => {
+  const { addToast } = useToasts()
+  const onSubmit = async value => addToast('Saved Successfully', { appearance: 'success', autoDismiss: false })
+  return <button onClick={onSubmit}>create dismissable semantic ui notification </button>
+}
+
+const MyCustomToast = ({ appearance, dismissable, children, ...props }) => {
+  return (
+    <Message>
+      <Message.Header>Absolutely custom Semantic Message</Message.Header>
+      <p>
+        We updated our privacy policy here to better service our customers. We recommend reviewing the changes.
+        <div>
+          <button onClick={() => {alert('clicked')}}>custom button </button>
+        </div>
+      </p>
+   </Message>
+  )
+}
+
+const DismissableToast = ({ appearance, dismissable, children, onDismiss, ...props }) => (
+  <Message onDismiss={() => { onDismiss()}}>
+    <Message.Header>Absolutely custom Message</Message.Header>
+    <p>
+      We updated our privacy policy here to better service our customers. We
+      <button onClick={() => {alert('clicked')}}>custom button</button>
+    </p>
+  </Message>
+);
+
+const AnimatedToasts = () => {
+  const { addToast } = useToasts()
+  const onSubmit = async value => addToast('Saved Successfully', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 3000 })
+  return <button onClick={onSubmit}>create custom notification with animation</button>
+}
+
+const customAnimationStyle = {
+  transition: 'opacity 1s',
+  opacity: 0,
+  width: '300px',
+}
+
+const CustomAnimatedToast = ({ appearance, dismissable, children, transitionState, onDismiss, ...props }) => {
+  const opacity = transitionState !== 'entered' ? 0 : 1
+  const styles = {
+    ...customAnimationStyle,
+    opacity,
+  }
+
+  return (
+    <div style={styles}> 
+      <Message>
+
+        <Comment.Group>
+          <Comment>
+            <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
+            <Comment.Content>
+              <Comment.Author as='a'>Matt</Comment.Author>
+              <Comment.Metadata>
+                <div>Today at 5:42PM</div>
+              </Comment.Metadata>
+              <Comment.Text>How artistic!</Comment.Text>
+              <Comment.Actions>
+                <Comment.Action>Reply</Comment.Action>
+              </Comment.Actions>
+            </Comment.Content>
+          </Comment>
+        </Comment.Group>
+      </Message>
+    </div>
+  )
+}
+
+const App = () => {
+  return (
+    <>
+      <ToastProvider>
+        <StardardToasts />
+      </ToastProvider>
+      <ToastProvider placement='bottom-right'  components={{ Toast: MyCustomToast }}>
+        <FormWithToasts />
+      </ToastProvider>
+      <ToastProvider placement='bottom-left' components={{ Toast: DismissableToast }}>
+        <FormWithDismissableToasts />
+      </ToastProvider>
+      <ToastProvider placement='bottom-left' components={{ Toast: CustomAnimatedToast }}>
+        <AnimatedToasts />
+      </ToastProvider>
+    </>
+  )
+}
+
+export default App
