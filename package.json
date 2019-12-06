@@ -11,15 +11,15 @@
     "react-toast-notifications": "^2.4.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
-    "homepage": "http://michaelost.github.io/notifications",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
   },
+  "homepage": "http://michaelost.github.io/notifications",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
